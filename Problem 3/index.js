@@ -62,10 +62,38 @@ let allMovies = [
     rating: 8.6,
   },
 ];
-
+ //Code Here//
 function mostRecommended(data, category) {
-  let output = {};
-  // INSERT YOUR CODE HERE
+  let output = {
+    message: "We cannot find any movie in that category!",
+  };
+
+  let highestRating = -1;
+  for (let i = 0; i < data.length; i++) {
+    let movie = data[i];
+    let genre = movie.genre;
+    let categoryLength = category.length;
+
+    // Memastikan panjang genre sama dengan panjang category sebelum membandingkannya
+    if (genre.length === categoryLength) {
+      let mencocokan = true;
+      for (let m = 0; m < categoryLength; m++) {
+        if (genre[m] !== category[m]) {
+          mencocokan = false;
+          break;
+        }
+      }
+      // Jika kategori sesuai, dan rating lebih tinggi, perbarui output
+      if (mencocokan && movie.rating > highestRating) {
+        highestRating = movie.rating;
+        output = {
+          title: movie.title,
+          rating: movie.rating,
+          message: `You should watch this ${category} movie directed by ${movie.director}!`,
+        };
+      }
+    }
+  }
 
   return output;
 }

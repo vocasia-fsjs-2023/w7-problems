@@ -1,5 +1,4 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
   let movies = [
     {
       title: "Sherlock Holmes",
@@ -22,10 +21,14 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
-  // write your code here
-  return output;
+   // write your code here
+  for (let i = 0; i < movies.length; i++) {
+    if (movies[i].title === movieTitle) {
+      return movies[i];
+    }
+  }
+  return output; 
 }
-getDataMovie();
 
 function getFreeMeal(allergies) {
   let foods = [
@@ -54,7 +57,17 @@ function getFreeMeal(allergies) {
       price: 5000,
     },
   ];
-  // write your code here
+
+
+   // write your code here
+  let freeFoods = [];
+  for (let i = 0; i < foods.length; i++) {
+    if (!allergies.includes(foods[i].name)) {
+      freeFoods.push(foods[i].name);
+    }
+  }
+
+  return freeFoods.length > 0 ? freeFoods : "No free meal available"; 
 }
 
 function getFreeDrink(drinkSoda) {
@@ -80,7 +93,17 @@ function getFreeDrink(drinkSoda) {
       soda: false,
     },
   ];
-  // write your code here
+
+
+   // write your code here
+  let freeDrinks = [];
+  for (let i = 0; i < drinks.length; i++) {
+    if ((drinkSoda && drinks[i].soda) || (!drinkSoda && !drinks[i].soda)) {
+      freeDrinks.push(drinks[i].name);
+    }
+  }
+
+  return freeDrinks.length > 0 ? freeDrinks : "No free drink available";
 }
 
 function getCinemaType(movieTitle) {
@@ -88,7 +111,16 @@ function getCinemaType(movieTitle) {
     Premiere: ["Forrest Gump", "The Dark Knight", "5 cm"],
     Regular: ["Sherlock Holmes", "Call"],
   };
-  // write your code here
+
+ 
+   // write your code here
+  for (let type in types) {
+    if (types[type].includes(movieTitle)) {
+      return type;
+    }
+  }
+
+  return "Cinema type not found"; 
 }
 
 function getSeatNumber(codeType) {
@@ -99,16 +131,42 @@ function getSeatNumber(codeType) {
     ["C", "x", "x", "3", "4"],
     ["D", "x", "x", "x", "4"],
   ];
-  // write your code here
+
+   // write your code here
+  for (let i = 0; i < seats.length; i++) {
+    if (seats[i][0] === codeType) {
+      for (let j = 1; j < seats[i].length; j++) {
+        if (seats[i][j] !== "x") {
+          return codeType + j;
+        }
+      }
+    }
+  }
+
+  return "Seat not found"; 
 }
 
 function printTicket(customer) {
-  // write your code here
-  let data = getDataMovie(customer);
+  let movieData = getDataMovie(customer.movie);
 
-  return data;
+  if (movieData) {
+    let data = {
+      name: customer.name,
+      movie: customer.movie,
+      meal: getFreeMeal(customer.allergies),
+      drink: getFreeDrink(customer.drinkSoda),
+      seatType: getCinemaType(customer.movie),
+      seatNumber: getSeatNumber(customer.seatCode),
+      totalPrice: movieData.price,
+    };
+
+    if (customer === customer1 && data.meal && data.drink) {
+      data.message = "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha";
+    }
+
+    return data;
+  } 
 }
-
 let customer1 = {
   name: "Fajrin",
   movie: "5 cm",

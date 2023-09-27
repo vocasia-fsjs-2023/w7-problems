@@ -1,11 +1,11 @@
 var arr = [];
 function createObj(name, phase, gender) {
   // YOUR CODE HERE...
-
-  // END OF YOUR CODE HERE...
+  var obj = { name: name, phase: phase, gender: gender };
+  arr.push(obj);
+ // END OF YOUR CODE HERE...
   return arr;
 }
-
 createObj("Akbar", 1, "male");
 console.log(arr);
 //EXPECTATION [{name: 'Akbar', phase: 1, gender: 'male'}]
@@ -17,7 +17,13 @@ console.log(arr);
 function getData(name) {
   let result;
   // YOUR CODE HERE...
-
+  for (var i = 0; i < arr.length; i++) {
+    // Check if the 'name' property of the current object matches the specified 'name'
+    if (arr[i].name === name) {
+      result = arr[i];
+      break; // Exit the loop once a matching object is found
+    }
+  }
   // END OF YOUR CODE HERE...
   return result;
 }

@@ -1,5 +1,10 @@
 function getProductsAmount(productsArr) {
   // Write your code here
+  const productsAmount = {};
+  for (const [productName, quantity] of productsArr) {
+    productsAmount[productName] = quantity;
+  }
+  return productsAmount;
   // EXPECTIATION
   // Input from customer.products
   // [
@@ -22,6 +27,21 @@ function getTotalPrice(productsObj) {
     ["Acer Predator", 21000000],
   ];
   // Write your code here
+  let totalPrice = 0;
+
+  for (const productName in productsObj) {
+    const quantity = productsObj[productName];
+    const product = listProduct.find((item) => item[0] === productName);
+
+    if (product) {
+      const price = product[1];
+      totalPrice += price * quantity;
+    } else {
+      console.error(`Product not found: ${productName}`);
+    }
+  }
+
+  return totalPrice;
   // EXPECTIATION
   // Input
   // {
@@ -34,19 +54,29 @@ function getTotalPrice(productsObj) {
 
 function getDiscount(memberStatus, totalPrice) {
   // Write your code here
+  const discountRate = memberStatus ? 0.8 : 1.0; // 20% discount for members
+  return totalPrice * discountRate;
+}
   // EXPECTIATION
   // Input
   // memberStatus = true
   // totalPrice = 121000000
   // Result
   // 92800000 // NUMBER
-}
 
 function shoppingTeros(customer) {
   // write your code here pakai function yg sudah dibuat diatas didalam sini
+  const productsAmount = getProductsAmount(customer.products);
+  const totalPrice = getTotalPrice(productsAmount);
+  const discountedPrice = getDiscount(customer.member, totalPrice);
+  const message = customer.member
+    ? `Hai pelanggan setia ${customer.name}!`
+    : `Hai ${customer.name}!`;
   // EXPECTATION Return berupa string sesuai contoh dibawah
   // apabila member maka panggil dia pelanggan setia
+  return `${message} Total Harga yang harus kamu bayar adalah Rp ${discountedPrice}`;
 }
+
 
 let customer1 = {
   name: "Fajrin",

@@ -65,9 +65,21 @@ let allMovies = [
 
 function mostRecommended(data, category) {
   let output = {};
-  // INSERT YOUR CODE HERE
+  let highestRating = 0;
+  for (let index = 0; index < data.length; index++) {
+    if (data[index].genre === category) {
+      if (data[index].rating > highestRating) {
+        highestRating = data[index].rating;
+        output.title = data[index].title;
+        output.rating = data[index].rating;
+        output.message = `You should watch this ${category} movie directed by ${data[index].director}!`;
+      }
+    }
+  }
 
-  return output;
+  return highestRating === 0
+    ? { message: "We cannot find any movie in that category!" }
+    : output;
 }
 
 console.log(mostRecommended(allMovies, "drama"));

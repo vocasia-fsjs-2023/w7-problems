@@ -1,5 +1,4 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
   let movies = [
     {
       title: "Sherlock Holmes",
@@ -22,10 +21,15 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
-  // write your code here
-  return output;
+  //write your code here
+  for (const movie of movies) {
+    if (movie.title === movieTitle) {
+      return movie;
+    }
+  }
+
+  return null; 
 }
-getDataMovie();
 
 function getFreeMeal(allergies) {
   let foods = [
@@ -54,7 +58,14 @@ function getFreeMeal(allergies) {
       price: 5000,
     },
   ];
-  // write your code here
+  //write your code here
+  for (const food of foods) {
+    if (!allergies.includes(food.name)) {
+      return food;
+    }
+  }
+
+  return null; 
 }
 
 function getFreeDrink(drinkSoda) {
@@ -80,7 +91,14 @@ function getFreeDrink(drinkSoda) {
       soda: false,
     },
   ];
-  // write your code here
+  //write your code here
+  for (const drink of drinks) {
+    if (drinkSoda === drink.soda) {
+      return drink;
+    }
+  }
+
+  return null; 
 }
 
 function getCinemaType(movieTitle) {
@@ -88,25 +106,62 @@ function getCinemaType(movieTitle) {
     Premiere: ["Forrest Gump", "The Dark Knight", "5 cm"],
     Regular: ["Sherlock Holmes", "Call"],
   };
-  // write your code here
+ //write your code here
+  for (const type in types) {
+    if (types[type].includes(movieTitle)) {
+      return type;
+    }
+  }
+
+  return null; 
 }
 
 function getSeatNumber(codeType) {
-  // Lambang "x" menandakan bahwa kursi sudah terisi
   let seats = [
+    //Lambang "x" menandakan bahwa kursi sudah terisi
     ["A", "x", "2", "3", "4"],
     ["B", "1", "x", "x", "4"],
     ["C", "x", "x", "3", "4"],
     ["D", "x", "x", "x", "4"],
   ];
-  // write your code here
+
+  for (let i = 0; i < seats.length; i++) {
+    const rowIndex = seats[i].indexOf(codeType);
+    if (rowIndex !== -1 && seats[i][rowIndex] !== "x") {
+      seats[i][rowIndex] = "x";
+      return `${codeType}${i + 1}`;
+    }
+  }
+
+  return null; 
 }
 
 function printTicket(customer) {
-  // write your code here
-  let data = getDataMovie(customer);
+  //write your code here
+  let movieData = getDataMovie(customer.movie);
+  const { name, movie, allergies, drinkSoda, seatCode } = customer;
+  const mealData = getFreeMeal(allergies);
+  const drinkData = getFreeDrink(drinkSoda);
+  const cinemaType = getCinemaType(movie);
+  const seatNumber = getSeatNumber(seatCode);
 
-  return data;
+  if (!movieData || !mealData || !drinkData || !cinemaType || !seatNumber) {
+    return "Invalid input. Please check your selections.";
+  }
+
+  const totalPrice = movieData.price + mealData.price + drinkData.price;
+  const message = "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha";
+ 
+  return {
+    name,
+    movie,
+    meal: mealData.name,
+    drink: drinkData.name,
+    seatType: cinemaType,
+    seatNumber,
+    totalPrice,
+    message,
+  };
 }
 
 let customer1 = {
@@ -146,7 +201,6 @@ console.log(printTicket(customer1));
 //   totalPrice: 75000,
 //   message: 'Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha'
 // }
-
 console.log(printTicket(customer2));
 // {
 //   name: 'Amel',
@@ -157,7 +211,6 @@ console.log(printTicket(customer2));
 //   seatNumber: 'A2',
 //   totalPrice: 54000,
 // }
-
 console.log(printTicket(customer3));
 // {
 //   name: 'Rega',

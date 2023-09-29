@@ -1,5 +1,5 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
+  const output = {};
   let movies = [
     {
       title: "Sherlock Holmes",
@@ -22,6 +22,13 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
+
+  for (let index = 0; index < movies.length; index++) {
+    if (movies[index].title === movieTitle) {
+      output.movie = movies[index].title;
+      output.price = movies[index].price;
+    }
+  }
   // write your code here
   return output;
 }
@@ -55,6 +62,11 @@ function getFreeMeal(allergies) {
     },
   ];
   // write your code here
+  for (let index = 0; index < foods.length; index++) {
+    if (!allergies.includes(foods[index].name)) {
+      return { name: foods[index].name, price: foods[index].price };
+    }
+  }
 }
 
 function getFreeDrink(drinkSoda) {
@@ -81,6 +93,11 @@ function getFreeDrink(drinkSoda) {
     },
   ];
   // write your code here
+  for (let index = 0; index < drinks.length; index++) {
+    if (drinks[index].soda === drinkSoda.drinkSoda) {
+      return drinks[index];
+    }
+  }
 }
 
 function getCinemaType(movieTitle) {
@@ -88,6 +105,14 @@ function getCinemaType(movieTitle) {
     Premiere: ["Forrest Gump", "The Dark Knight", "5 cm"],
     Regular: ["Sherlock Holmes", "Call"],
   };
+
+  for (const key in types) {
+    for (let index = 0; index < types[key].length; index++) {
+      if (types[key][index] === movieTitle) {
+        return key;
+      }
+    }
+  }
   // write your code here
 }
 
@@ -100,11 +125,29 @@ function getSeatNumber(codeType) {
     ["D", "x", "x", "x", "4"],
   ];
   // write your code here
+  for (let index = 0; index < seats.length; index++) {
+    for (let j = 0; j < seats[index].length; j++) {
+      if (seats[index][0] === codeType && seats[index][j] !== "x" && j !== 0) {
+        return `${seats[index][0]}${j}`;
+      }
+    }
+  }
 }
 
 function printTicket(customer) {
   // write your code here
-  let data = getDataMovie(customer);
+  const data = getDataMovie(customer.movie);
+  data.name = customer.name;
+  data.meal = getFreeMeal(customer.allergies);
+  data.drink = getFreeDrink(customer);
+  data.seatType = getCinemaType(data.movie);
+  data.seatNumber = getSeatNumber(customer.seatCode);
+  data.totalPrice = data.price + data.meal.price + data.drink.price;
+  data.meal = data.meal.name;
+  data.drink = data.drink.name;
+  delete data.price;
+  data.message =
+    "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha";
 
   return data;
 }

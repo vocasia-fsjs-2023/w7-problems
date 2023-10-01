@@ -1,5 +1,4 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
   let movies = [
     {
       title: "Sherlock Holmes",
@@ -23,7 +22,11 @@ function getDataMovie(movieTitle) {
     },
   ];
   // write your code here
-  return output;
+  for (let i = 0; i < movies.length; i++) {
+    if (movies[i].title === movieTitle) {
+      return movies[i];
+    }
+  }
 }
 getDataMovie();
 
@@ -55,6 +58,13 @@ function getFreeMeal(allergies) {
     },
   ];
   // write your code here
+  for (let i = 0; i < foods.length; i++) {
+    if (!allergies.includes(foods[i].name)) {
+      return foods[i];
+    }
+  }
+
+  return "No free food available";
 }
 
 function getFreeDrink(drinkSoda) {
@@ -81,6 +91,13 @@ function getFreeDrink(drinkSoda) {
     },
   ];
   // write your code here
+  for (let i = 0; i < drinks.length; i++) {
+    if (drinks[i].soda === drinkSoda) {
+      return drinks[i];
+    }
+  }
+
+  return "No free drink available";
 }
 
 function getCinemaType(movieTitle) {
@@ -89,6 +106,13 @@ function getCinemaType(movieTitle) {
     Regular: ["Sherlock Holmes", "Call"],
   };
   // write your code here
+  for (const [type, movies] of Object.entries(types)) {
+    for (let i = 0; i < movies.length; i++) {
+      if (movies[i] === movieTitle) {
+        return type;
+      }
+    }
+  }
 }
 
 function getSeatNumber(codeType) {
@@ -100,13 +124,44 @@ function getSeatNumber(codeType) {
     ["D", "x", "x", "x", "4"],
   ];
   // write your code here
+  let row = -1;
+  for (let i = 0; i < seats.length; i++) {
+    if (seats[i][0] === codeType) {
+      row = i;
+      break;
+    }
+  }
+  if (row === -1) {
+    return "Invalid seat code";
+  }
+  for (let j = 1; j < seats[row].length; j++) {
+    if (seats[row][j] !== "x") {
+      return codeType + j;
+    }
+  }
+
+  return "All seats in row " + codeType + " are taken";
 }
 
 function printTicket(customer) {
   // write your code here
-  let data = getDataMovie(customer);
-
-  return data;
+  let movieData = getDataMovie(customer.movie);
+  if (movieData) {
+    let data = {
+      name: customer.name,
+      movie: customer.movie,
+      meal: getFreeMeal(customer.allergies),
+      drink: getFreeDrink(customer.drinkSoda),
+      seatType: getCinemaType(customer.movie),
+      seatNumber: getSeatNumber(customer.seatCode),
+      totalPrice: movieData.price,
+    };
+    if (customer === customer1 && data.meal && data.drink) {
+      data.message =
+        "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha";
+    }
+    return data;
+  }
 }
 
 let customer1 = {

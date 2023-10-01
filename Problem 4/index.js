@@ -1,6 +1,5 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
-  let movies = [
+  const movies = [
     {
       title: "Sherlock Holmes",
       price: 20000,
@@ -22,13 +21,14 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
-  // write your code here
-  return output;
+
+  const selectedMovie = movies.find((movie) => movie.title === movieTitle);
+
+  return selectedMovie;
 }
-getDataMovie();
 
 function getFreeMeal(allergies) {
-  let foods = [
+  const foods = [
     {
       name: "Pizza",
       price: 50000,
@@ -54,11 +54,21 @@ function getFreeMeal(allergies) {
       price: 5000,
     },
   ];
-  // write your code here
+
+  let selectedFood = null;
+
+  for (let i = 0; i < foods.length; i++) {
+    if (!allergies.includes(foods[i].name)) {
+      selectedFood = foods[i];
+      break;
+    }
+  }
+
+  return selectedFood;
 }
 
 function getFreeDrink(drinkSoda) {
-  let drinks = [
+  const drinks = [
     {
       name: "Coca-Cola",
       price: 15000,
@@ -80,33 +90,74 @@ function getFreeDrink(drinkSoda) {
       soda: false,
     },
   ];
-  // write your code here
+
+  let selectedDrink = null;
+
+  for (let i = 0; i < drinks.length; i++) {
+    if (drinkSoda && drinks[i].soda) {
+      selectedDrink = drinks[i];
+      break;
+    } else if (!drinkSoda && !drinks[i].soda) {
+      selectedDrink = drinks[i];
+      break;
+    }
+  }
+
+  return selectedDrink;
 }
 
 function getCinemaType(movieTitle) {
-  let types = {
-    Premiere: ["Forrest Gump", "The Dark Knight", "5 cm"],
-    Regular: ["Sherlock Holmes", "Call"],
-  };
-  // write your code here
+  const premiereMovies = ["Forrest Gump", "The Dark Knight", "5 cm"];
+  return premiereMovies.includes(movieTitle) ? "Premiere" : "Regular";
 }
 
-function getSeatNumber(codeType) {
-  // Lambang "x" menandakan bahwa kursi sudah terisi
-  let seats = [
+function getSeatNumber(codeSeat) {
+  const seats = [
     ["A", "x", "2", "3", "4"],
     ["B", "1", "x", "x", "4"],
     ["C", "x", "x", "3", "4"],
     ["D", "x", "x", "x", "4"],
   ];
-  // write your code here
+
+  for (let i = 0; i < seats.length; i++) {
+    const row = seats[i];
+    const rowIndex = row.indexOf(codeSeat);
+    if (rowIndex !== -1) {
+      const seatNumber = rowIndex + 1;
+      return codeSeat + seatNumber;
+    }
+  }
+
+  return null;
 }
 
 function printTicket(customer) {
-  // write your code here
-  let data = getDataMovie(customer);
+  const dataMovie = getDataMovie(customer.movie);
+  const freeMeal = getFreeMeal(customer.allergies);
+  const freeDrink = getFreeDrink(customer.drinkSoda);
+  const cinemaType = getCinemaType(customer.movie);
+  const seatNumber = getSeatNumber(customer.seatCode);
 
-  return data;
+  if (!dataMovie || !freeMeal || !freeDrink || !cinemaType || !seatNumber) {
+    return null;
+  }
+
+  const totalPrice =
+    dataMovie.price + freeMeal.price + freeDrink.price;
+
+  const message =
+    "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha";
+
+  return {
+    name: customer.name,
+    movie: customer.movie,
+    meal: freeMeal.name,
+    drink: freeDrink.name,
+    seatType: cinemaType,
+    seatNumber: seatNumber,
+    totalPrice: totalPrice,
+    message: message,
+  };
 }
 
 let customer1 = {
@@ -133,38 +184,6 @@ let customer3 = {
   seatCode: "D",
 };
 
-// TEST CASES
-
 console.log(printTicket(customer1));
-// {
-//   name: 'Fajrin',
-//   movie: '5 cm',
-//   meal: 'Popcorn',
-//   drink: 'Coca-Cola',
-//   seatType: 'Premiere',
-//   seatNumber: 'C3',
-//   totalPrice: 75000,
-//   message: 'Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha'
-// }
-
 console.log(printTicket(customer2));
-// {
-//   name: 'Amel',
-//   movie: 'The Dark Knight',
-//   meal: 'Odading',
-//   drink: 'Thai Tea',
-//   seatType: 'Premiere',
-//   seatNumber: 'A2',
-//   totalPrice: 54000,
-// }
-
 console.log(printTicket(customer3));
-// {
-//   name: 'Rega',
-//   movie: 'Sherlock Holmes',
-//   meal: 'Odading',
-//   drink: 'Coca-Cola',
-//   seatType: 'Regular',
-//   seatNumber: 'D4',
-//   totalPrice: 55000,
-// }

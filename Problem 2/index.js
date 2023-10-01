@@ -1,16 +1,14 @@
 function getProductsAmount(productsArr) {
-  // Write your code here
-  // EXPECTIATION
-  // Input from customer.products
-  // [
-  //   ["Asus ROG", 2],
-  //   ["Lenovo Legion", 3],
-  // ],
-  // Result
-  // {
-  //   "Asus ROG": 2,
-  //   "Lenovo Legion":3
-  // }
+  const listProductAmount = {};
+
+  for (const product of productsArr) {
+    const productName = product[0];
+    const productAmount = product[1];
+
+    listProductAmount[productName] = productAmount;
+  }
+
+  return listProductAmount;
 }
 
 function getTotalPrice(productsObj) {
@@ -21,31 +19,50 @@ function getTotalPrice(productsObj) {
     ["HP Omen", 20000000],
     ["Acer Predator", 21000000],
   ];
-  // Write your code here
-  // EXPECTIATION
-  // Input
-  // {
-  //   "Asus ROG": 2,
-  //   "Lenovo Legion":3
-  // }
-  // Result
-  // 121000000 // NUMBER
+
+  let totalPrice = 0;
+
+  for (const productName in productsObj) {
+    if (productsObj.hasOwnProperty(productName)) {
+      const productAmount = productsObj[productName];
+      const productPrice = getProductPriceByName(listProduct, productName);
+
+      totalPrice += productAmount * productPrice;
+    }
+  }
+
+  return totalPrice;
 }
 
 function getDiscount(memberStatus, totalPrice) {
-  // Write your code here
-  // EXPECTIATION
-  // Input
-  // memberStatus = true
-  // totalPrice = 121000000
-  // Result
-  // 92800000 // NUMBER
+  if (memberStatus) {
+    return totalPrice * 0.2; // 20% discount for members
+  } else {
+    return 0; // No discount for non-members
+  }
 }
 
 function shoppingTeros(customer) {
-  // write your code here pakai function yg sudah dibuat diatas didalam sini
-  // EXPECTATION Return berupa string sesuai contoh dibawah
-  // apabila member maka panggil dia pelanggan setia
+  const listProductAmount = getProductsAmount(customer.products);
+  const totalPrice = getTotalPrice(listProductAmount);
+  const statusMember = customer.member;
+  const discount = getDiscount(statusMember, totalPrice);
+  const totalPriceAfterDiscount = totalPrice - discount;
+
+  if (statusMember) {
+    return `Hai pelanggan setia ${customer.name}! Total Harga yang harus kamu bayar adalah Rp ${totalPriceAfterDiscount}`;
+  } else {
+    return `Hai ${customer.name}! Total Harga yang harus kamu bayar adalah Rp ${totalPriceAfterDiscount}`;
+  }
+}
+
+function getProductPriceByName(listProduct, productName) {
+  for (const product of listProduct) {
+    if (product[0] === productName) {
+      return product[1];
+    }
+  }
+  return 0; // Return 0 if product not found
 }
 
 let customer1 = {

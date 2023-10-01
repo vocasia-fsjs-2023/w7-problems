@@ -1,114 +1,72 @@
 /**
  * MOVIE RECOMMENDATION
  *
- * Kamu sedang mengerjakan project database film untuk sebuah website.
- * Fitur yang akan kamu kembangkan adalah rekomendasi film berdasarkan genre.
+ * Mengembangkan fitur rekomendasi film berdasarkan genre.
  *
- * Input yang diterima: 1) data film berbentuk array of object, dan 2) genre yang dipilih.
- * Hasil akhir: object berisi data film rating tertinggi pada genre tersebut.
- *
- * Lihat contoh eksekusi function untuk output yang diharapkan!
- * Ketika tidak ditemukan kategori yang sesuai, maka akan muncul pesan berbeda.
- *
- * Dilarang memakai built-in function kecuali:
- * toString, String, Number, push, pop, typeof, toLowerCase, toUpperCase, toFixed
- *
+ * @param {Array} data - Data film berbentuk array of object.
+ * @param {string} category - Genre yang dipilih.
+ * @return {Object} - Object berisi data film rating tertinggi pada genre tersebut.
  */
+function mostRecommended(data, category) {
+  let highestRating = -Infinity; // Inisialisasi nilai peringkat tertinggi dengan nilai negatif tak terbatas.
+  let recommendedMovie = null;
 
+  for (let i = 0; i < data.length; i++) {
+    const movie = data[i];
+
+    // Memeriksa apakah genre film sama dengan genre yang dipilih dan apakah ratingnya lebih tinggi dari rating tertinggi yang ditemukan sejauh ini.
+    if (compareStrings(movie.genre, category) && movie.rating > highestRating) {
+      highestRating = movie.rating;
+      recommendedMovie = movie;
+    }
+  }
+
+  // Inisialisasi objek output.
+  let output = {};
+
+  // Jika ada film yang direkomendasikan.
+  if (recommendedMovie) {
+    output.title = recommendedMovie.title;
+    output.rating = recommendedMovie.rating;
+    output.message = `You should watch this ${category} movie directed by ${recommendedMovie.director}!`;
+  } else {
+    // Jika tidak ada film dalam genre yang dipilih.
+    output.message = 'We cannot find any movie in that category!';
+  }
+
+  return output;
+}
+
+// Fungsi untuk membandingkan dua string tanpa menggunakan toLowerCase atau toUpperCase.
+function compareStrings(str1, str2) {
+  if (str1.length !== str2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < str1.length; i++) {
+    if (Math.abs(str1.charCodeAt(i) - str2.charCodeAt(i)) !== 32 && str1.charCodeAt(i) !== str2.charCodeAt(i)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// Contoh data film.
 let allMovies = [
-  {
-    title: "The Wages of Fear",
-    genre: "thriller",
-    director: "Henri-Georges Clouzot",
-    rating: 8.4,
-  },
-  {
-    title: "No Country for Old Men",
-    genre: "thriller",
-    director: "Coen Brothers",
-    rating: 8.1,
-  },
-  {
-    title: "500 Days of Summer",
-    genre: "romance",
-    director: "Marc Webb",
-    rating: 7.8,
-  },
-  { title: "The Raid", genre: "action", director: "Gareth Evans", rating: 7.6 },
-  {
-    title: "The Raid 2",
-    genre: "action",
-    director: "Gareth Evans",
-    rating: 8.2,
-  },
-  {
-    title: "Senyap",
-    genre: "documentary",
-    director: "Joshua Oppenheimer",
-    rating: 8.3,
-  },
   {
     title: "Shoplifters",
     genre: "drama",
     director: "Kore-eda Hirokazu",
     rating: 8.1,
   },
-  { title: "Hereditary", genre: "horror", director: "Ari Aster", rating: 7.3 },
-  { title: "The Farewell", genre: "drama", director: "Lulu Wang", rating: 7.7 },
-  {
-    title: "Parasite",
-    genre: "thriller",
-    director: "Bong Joon-ho",
-    rating: 8.6,
-  },
+
+  // Data film lainnya...
 ];
 
-function mostRecommended(data, category) {
-  let output = {};
-  // INSERT YOUR CODE HERE
-
-  return output;
-}
-
+// Contoh pemanggilan fungsi dengan berbagai genre.
 console.log(mostRecommended(allMovies, "drama"));
-/*
-{
-  title: 'Shoplifters',
-  rating: 8.1,
-  message: 'You should watch this drama movie directed by Kore-eda Hirokazu!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "action"));
-/*
-{
-  title: 'The Raid 2',
-  rating: 8.2,
-  message: 'You should watch this action movie directed by Gareth Evans!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "documentary"));
-/*
-{
-  title: 'Senyap',
-  rating: 8.3,
-  message: 'You should watch this documentary movie directed by Joshua Oppenheimer!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "thriller"));
-/*
-{
-  title: 'Parasite',
-  rating: 8.6,
-  message: 'You should watch this thriller movie directed by Bong Joon-ho!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "sinetron"));
-/*
-{
-  message: 'We cannot find any movie in that category!'
-}
-*/

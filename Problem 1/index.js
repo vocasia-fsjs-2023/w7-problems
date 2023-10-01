@@ -1,6 +1,6 @@
 var arr = [];
 function createObj(name, phase, gender) {
-// Membuat objek siswa
+  // Membuat objek siswa
   const student = { name, phase, gender };
   
   // Menambah objek siswa ke array

@@ -67,6 +67,23 @@ function mostRecommended(data, category) {
   let output = {};
   // INSERT YOUR CODE HERE
 
+
+ const filteredMovies = data.filter(movie => movie.genre === category);
+
+ 
+ if (filteredMovies.length === 0) {
+   output.message = 'We cannot find any movie in that category!';
+ } else {
+   
+   const highestRatedMovie = filteredMovies.reduce((prev, curr) => {
+     return prev.rating > curr.rating ? prev : curr;
+   });
+
+
+   output.title = highestRatedMovie.title;
+   output.rating = highestRatedMovie.rating;
+   output.message = `You should watch this ${category} movie directed by ${highestRatedMovie.director}!`;
+ }
   return output;
 }
 

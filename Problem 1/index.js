@@ -2,6 +2,8 @@ var arr = [];
 function createObj(name, phase, gender) {
   // YOUR CODE HERE...
 
+  let student = { name: name, phase: phase, gender: gender };
+  arr.push(student);
   // END OF YOUR CODE HERE...
   return arr;
 }
@@ -9,7 +11,6 @@ function createObj(name, phase, gender) {
 createObj("Akbar", 1, "male");
 console.log(arr);
 //EXPECTATION [{name: 'Akbar', phase: 1, gender: 'male'}]
-
 createObj("Icha", 1, "female");
 console.log(arr);
 //EXPECTATION [{name: 'Akbar', phase: 1, gender: 'male'}, {name: 'Icha', phase: 1, gender: 'female'}]
@@ -17,6 +18,13 @@ console.log(arr);
 function getData(name) {
   let result;
   // YOUR CODE HERE...
+
+  for (let a = 0; a < arr.length; a++) {
+    if (arr[a].name === name) {
+      result = arr[a];
+      break;
+    }
+  }
 
   // END OF YOUR CODE HERE...
   return result;

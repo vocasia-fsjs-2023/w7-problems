@@ -1,28 +1,29 @@
-var arr = [];
-function createObj(name, phase, gender) {
-  // YOUR CODE HERE...
+var arr = []; // Array untuk menyimpan data siswa
 
-  // END OF YOUR CODE HERE...
+function createObj(name, phase, gender) {
+  // Membuat objek siswa baru
+  const student = { name, phase, gender };
+  
+  // Menambahkan objek siswa ke dalam array
+  arr.push(student);
+  
+  // Mengembalikan array setelah penambahan data
   return arr;
 }
 
 createObj("Akbar", 1, "male");
-console.log(arr);
-//EXPECTATION [{name: 'Akbar', phase: 1, gender: 'male'}]
-
 createObj("Icha", 1, "female");
-console.log(arr);
-//EXPECTATION [{name: 'Akbar', phase: 1, gender: 'male'}, {name: 'Icha', phase: 1, gender: 'female'}]
 
 function getData(name) {
-  let result;
-  // YOUR CODE HERE...
-
-  // END OF YOUR CODE HERE...
-  return result;
+  // Mencari objek siswa berdasarkan nama
+  for (const student of arr) {
+    if (student.name === name) {
+      return student; // Mengembalikan objek siswa jika nama cocok
+    }
+  }
+  
+  return undefined; // Mengembalikan undefined jika nama tidak ditemukan
 }
 
-console.log(getData("Icha"));
-//EXPECTATION {name: 'Icha', phase: 1, gender: 'female'}
-console.log(getData("Abby"));
-//EXPECTATION undefined
+console.log(getData("Icha")); // { name: 'Icha', phase: 1, gender: 'female' }
+console.log(getData("Abby")); // undefined

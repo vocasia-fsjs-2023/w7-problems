@@ -64,51 +64,31 @@ let allMovies = [
 ];
 
 function mostRecommended(data, category) {
-  let output = {};
-  // INSERT YOUR CODE HERE
+  let output = {
+    message: "We cannot find any movie in that category!",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const movie = data[i];
+
+    // Memeriksa apakah genre film sama dengan kategori yang dicari
+    if (movie.genre === category) {
+      // Jika rating film lebih tinggi dari output saat ini
+      if (movie.rating > (output.rating || -Infinity)) {
+        output = {
+          title: movie.title,
+          rating: movie.rating,
+          message: `You should watch this ${category} movie directed by ${movie.director}!`,
+        };
+      }
+    }
+  }
 
   return output;
 }
 
 console.log(mostRecommended(allMovies, "drama"));
-/*
-{
-  title: 'Shoplifters',
-  rating: 8.1,
-  message: 'You should watch this drama movie directed by Kore-eda Hirokazu!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "action"));
-/*
-{
-  title: 'The Raid 2',
-  rating: 8.2,
-  message: 'You should watch this action movie directed by Gareth Evans!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "documentary"));
-/*
-{
-  title: 'Senyap',
-  rating: 8.3,
-  message: 'You should watch this documentary movie directed by Joshua Oppenheimer!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "thriller"));
-/*
-{
-  title: 'Parasite',
-  rating: 8.6,
-  message: 'You should watch this thriller movie directed by Bong Joon-ho!'
-}
-*/
-
 console.log(mostRecommended(allMovies, "sinetron"));
-/*
-{
-  message: 'We cannot find any movie in that category!'
-}
-*/

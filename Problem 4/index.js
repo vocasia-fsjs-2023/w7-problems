@@ -22,10 +22,11 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
-  // write your code here
-  return output;
+  const movieData = movies.find(movie => movie.title === movieTitle);
+
+  return movieData;
 }
-getDataMovie();
+
 
 function getFreeMeal(allergies) {
   let foods = [
@@ -55,6 +56,17 @@ function getFreeMeal(allergies) {
     },
   ];
   // write your code here
+  let freeMeal = "Chitato"; // Default free meal
+
+  for (const allergy of allergies) {
+    const foodIndex = foods.findIndex(food => food.name === allergy);
+    if (foodIndex !== -1) {
+      freeMeal = foods[foodIndex].name;
+      break;
+    }
+  }
+
+  return freeMeal;
 }
 
 function getFreeDrink(drinkSoda) {
@@ -80,7 +92,9 @@ function getFreeDrink(drinkSoda) {
       soda: false,
     },
   ];
-  // write your code here
+ const freeDrink = drinks.find(drink => drink.soda === drinkSoda);
+
+  return freeDrink;
 }
 
 function getCinemaType(movieTitle) {
@@ -89,6 +103,13 @@ function getCinemaType(movieTitle) {
     Regular: ["Sherlock Holmes", "Call"],
   };
   // write your code here
+  for (const type in types) {
+    if (types[type].includes(movieTitle)) {
+      return type;
+    }
+  }
+
+  return "Regular";
 }
 
 function getSeatNumber(codeType) {
@@ -100,11 +121,61 @@ function getSeatNumber(codeType) {
     ["D", "x", "x", "x", "4"],
   ];
   // write your code here
+  let row, col;
+
+  for (let i = 0; i < seats.length; i++) {
+    const rowIndex = seats[i].indexOf(codeSeat);
+    if (rowIndex !== -1) {
+      row = String.fromCharCode(65 + i); // Convert row index to letter
+      col = rowIndex + 1;
+      break;
+    }
+  }
+  const seatNumber = `${row}${col}`;
+  return seatNumber;
+}
+
+function getSeatNumber(codeType) {
+  // Lambang "x" menandakan bahwa kursi sudah terisi
+  let seats = [
+    ["A", "x", "2", "3", "4"],
+    ["B", "1", "x", "x", "4"],
+    ["C", "x", "x", "3", "4"],
+    ["D", "x", "x", "x", "4"],
+  ];
+  // write your code here
+  let row, col;
+  for (let i = 0; i < seats.length; i++) {
+    let rowIndex = seats[i].indexOf(codeType);
+    if (rowIndex !== -1) {
+      row = String.fromCharCode(65 + i);
+      col = rowIndex + 1;
+      break;
+    }
+  }
+
+  return `${row}${col}`;
 }
 
 function printTicket(customer) {
   // write your code here
-  let data = getDataMovie(customer);
+  const movieData = getDataMovie(customer.movie);
+  const freeMeal = getFreeMeal(customer.allergies);
+  const freeDrink = getFreeDrink(customer.drinkSoda);
+  const cinemaType = getCinemaType(customer.movie);
+  const seatNumber = getSeatNumber(customer.seatCode);
+  const totalPrice = movieData.price + (freeMeal ? freeMeal.price : 0) + (freeDrink ? freeDrink.price : 0);
+
+  const data = {
+    name: customer.name,
+    movie: customer.movie,
+    meal: freeMeal ? freeMeal.name : undefined,
+    drink: freeDrink ? freeDrink.name : undefined,
+    seatType: cinemaType,
+    seatNumber,
+    totalPrice,
+    message: "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha",
+  };
 
   return data;
 }

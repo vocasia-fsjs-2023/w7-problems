@@ -1,20 +1,3 @@
-/**
- * MOVIE RECOMMENDATION
- *
- * Kamu sedang mengerjakan project database film untuk sebuah website.
- * Fitur yang akan kamu kembangkan adalah rekomendasi film berdasarkan genre.
- *
- * Input yang diterima: 1) data film berbentuk array of object, dan 2) genre yang dipilih.
- * Hasil akhir: object berisi data film rating tertinggi pada genre tersebut.
- *
- * Lihat contoh eksekusi function untuk output yang diharapkan!
- * Ketika tidak ditemukan kategori yang sesuai, maka akan muncul pesan berbeda.
- *
- * Dilarang memakai built-in function kecuali:
- * toString, String, Number, push, pop, typeof, toLowerCase, toUpperCase, toFixed
- *
- */
-
 let allMovies = [
   {
     title: "The Wages of Fear",
@@ -65,10 +48,31 @@ let allMovies = [
 
 function mostRecommended(data, category) {
   let output = {};
-  // INSERT YOUR CODE HERE
+  let highestRating = 0;
+  let recommendedMovie = null;
+
+  for (let i = 0; i < data.length; i++) {
+    const movie = data[i];
+    if (movie.genre === category && movie.rating > highestRating) {
+      highestRating = movie.rating;
+      recommendedMovie = movie;
+    }
+  }
+
+  if (recommendedMovie) {
+    output = {
+      title: recommendedMovie.title,
+      rating: highestRating,
+      message: You should watch this ${category} movie directed by ${recommendedMovie.director}!,
+    };
+  } else {
+    output = {
+      message: 'We cannot find any movie in that category!',
+    };
+  }
 
   return output;
-}
+};
 
 console.log(mostRecommended(allMovies, "drama"));
 /*

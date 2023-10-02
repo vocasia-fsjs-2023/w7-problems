@@ -1,8 +1,10 @@
 var arr = [];
 function createObj(name, phase, gender) {
-  // YOUR CODE HERE...
-
-  // END OF YOUR CODE HERE...
+  // Membuat objek siswa
+  const student = { name, phase, gender };
+  
+  // Menambah objek siswa ke array
+  arr.push(student);
   return arr;
 }
 
@@ -16,9 +18,8 @@ console.log(arr);
 
 function getData(name) {
   let result;
-  // YOUR CODE HERE...
-
-  // END OF YOUR CODE HERE...
+// Mencari siswa dengan nama yang sesuai
+  const student = arr.find(s => s.name === name);
   return result;
 }
 

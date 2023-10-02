@@ -1,5 +1,4 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
   let movies = [
     {
       title: "Sherlock Holmes",
@@ -22,10 +21,10 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
-  // write your code here
-  return output;
+
+  const movie = movies.find((movie) => movie.title === movieTitle);
+  return movie ? movie : null;
 }
-getDataMovie();
 
 function getFreeMeal(allergies) {
   let foods = [
@@ -54,7 +53,9 @@ function getFreeMeal(allergies) {
       price: 5000,
     },
   ];
-  // write your code here
+
+  const freeFood = foods.find((food) => !allergies.includes(food.name));
+  return freeFood ? freeFood : null;
 }
 
 function getFreeDrink(drinkSoda) {
@@ -80,7 +81,9 @@ function getFreeDrink(drinkSoda) {
       soda: false,
     },
   ];
-  // write your code here
+
+  const freeDrink = drinks.find((drink) => drink.soda === drinkSoda);
+  return freeDrink ? freeDrink : null;
 }
 
 function getCinemaType(movieTitle) {
@@ -88,7 +91,13 @@ function getCinemaType(movieTitle) {
     Premiere: ["Forrest Gump", "The Dark Knight", "5 cm"],
     Regular: ["Sherlock Holmes", "Call"],
   };
-  // write your code here
+
+  for (const type in types) {
+    if (types[type].includes(movieTitle)) {
+      return type;
+    }
+  }
+  return "Unknown";
 }
 
 function getSeatNumber(codeType) {
@@ -99,14 +108,40 @@ function getSeatNumber(codeType) {
     ["C", "x", "x", "3", "4"],
     ["D", "x", "x", "x", "4"],
   ];
-  // write your code here
+
+  for (let i = 0; i < seats.length; i++) {
+    const row = seats[i];
+    if (row[0] === codeType) {
+      for (let j = 1; j < row.length; j++) {
+        if (row[j] !== "x") {
+          return `${row[0]}${j}`;
+        }
+      }
+    }
+  }
+  return "No Available Seat";
 }
 
 function printTicket(customer) {
-  // write your code here
-  let data = getDataMovie(customer);
+  const dataMovie = getDataMovie(customer.movie);
+  const freeMeal = getFreeMeal(customer.allergies);
+  const freeDrink = getFreeDrink(customer.drinkSoda);
+  const cinemaType = getCinemaType(customer.movie);
+  const seatNumber = getSeatNumber(customer.seatCode);
+  const totalPrice = dataMovie.price + (freeMeal ? freeMeal.price : 0) + (freeDrink ? freeDrink.price : 0);
 
-  return data;
+  const message = "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha";
+
+  return {
+    name: customer.name,
+    movie: customer.movie,
+    meal: freeMeal ? freeMeal.name : "None",
+    drink: freeDrink ? freeDrink.name : "None",
+    seatType: cinemaType,
+    seatNumber: seatNumber,
+    totalPrice: totalPrice,
+    message: message,
+  };
 }
 
 let customer1 = {
@@ -136,35 +171,5 @@ let customer3 = {
 // TEST CASES
 
 console.log(printTicket(customer1));
-// {
-//   name: 'Fajrin',
-//   movie: '5 cm',
-//   meal: 'Popcorn',
-//   drink: 'Coca-Cola',
-//   seatType: 'Premiere',
-//   seatNumber: 'C3',
-//   totalPrice: 75000,
-//   message: 'Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha'
-// }
-
 console.log(printTicket(customer2));
-// {
-//   name: 'Amel',
-//   movie: 'The Dark Knight',
-//   meal: 'Odading',
-//   drink: 'Thai Tea',
-//   seatType: 'Premiere',
-//   seatNumber: 'A2',
-//   totalPrice: 54000,
-// }
-
 console.log(printTicket(customer3));
-// {
-//   name: 'Rega',
-//   movie: 'Sherlock Holmes',
-//   meal: 'Odading',
-//   drink: 'Coca-Cola',
-//   seatType: 'Regular',
-//   seatNumber: 'D4',
-//   totalPrice: 55000,
-// }

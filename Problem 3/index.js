@@ -66,7 +66,23 @@ let allMovies = [
 function mostRecommended(data, category) {
   let output = {};
   // INSERT YOUR CODE HERE
+  let highRating = 0
+  let found = false;
 
+  for (const movie of data) {
+    if(movie.genre.toLowerCase()===category.toLowerCase()){
+      if(movie.rating > highRating){
+        highRating=movie.rating
+        output.title = movie.title
+        output.rating = movie.rating
+        output.message = `You should watch this ${category} movie directed by ${movie.director}!`
+        found = true
+      }
+    }
+  }
+  if(!found){
+    output.message = "We cannot find any movie in that category!" 
+  }
   return output;
 }
 

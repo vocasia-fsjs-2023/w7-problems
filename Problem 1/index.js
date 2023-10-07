@@ -1,8 +1,12 @@
 var arr = [];
 function createObj(name, phase, gender) {
-  // YOUR CODE HERE...
+  var dataSiswa = {
+    name: name,
+    phase: phase,
+    gender: gender,
+  };
+  arr.push(student);
 
-  // END OF YOUR CODE HERE...
   return arr;
 }
 
@@ -15,13 +19,11 @@ console.log(arr);
 //EXPECTATION [{name: 'Akbar', phase: 1, gender: 'male'}, {name: 'Icha', phase: 1, gender: 'female'}]
 
 function getData(name) {
-  let result;
-  // YOUR CODE HERE...
-
-  // END OF YOUR CODE HERE...
-  return result;
+  var dataSiswa = arr.find(function (dataSiswa) {
+    return dataSiswa.name === name;
+  });
+  return dataSiswa;
 }
-
 console.log(getData("Icha"));
 //EXPECTATION {name: 'Icha', phase: 1, gender: 'female'}
 console.log(getData("Abby"));

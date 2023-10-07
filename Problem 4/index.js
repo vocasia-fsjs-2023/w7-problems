@@ -1,5 +1,4 @@
 function getDataMovie(movieTitle) {
-  console.log(movieTitle.name);
   let movies = [
     {
       title: "Sherlock Holmes",
@@ -22,10 +21,17 @@ function getDataMovie(movieTitle) {
       price: 25000,
     },
   ];
-  // write your code here
-  return output;
+
+  for (const movie of movies) {
+    if (movie.title === movieTitle) {
+      return {
+        title: movie.title,
+        price: movie.price,
+      };
+    }
+  }
+  return null; // Film tidak ditemukan
 }
-getDataMovie();
 
 function getFreeMeal(allergies) {
   let foods = [
@@ -54,7 +60,16 @@ function getFreeMeal(allergies) {
       price: 5000,
     },
   ];
-  // write your code here
+
+  for (const food of foods) {
+    if (!allergies.includes(food.name)) {
+      return {
+        name: food.name,
+        price: food.price,
+      };
+    }
+  }
+  return null; // Semua makanan alergi
 }
 
 function getFreeDrink(drinkSoda) {
@@ -80,7 +95,17 @@ function getFreeDrink(drinkSoda) {
       soda: false,
     },
   ];
-  // write your code here
+
+  for (const drink of drinks) {
+    if (drinkSoda === drink.soda) {
+      return {
+        name: drink.name,
+        price: drink.price,
+        soda: drink.soda,
+      };
+    }
+  }
+  return null; // Tidak ada minuman yang sesuai
 }
 
 function getCinemaType(movieTitle) {
@@ -88,25 +113,66 @@ function getCinemaType(movieTitle) {
     Premiere: ["Forrest Gump", "The Dark Knight", "5 cm"],
     Regular: ["Sherlock Holmes", "Call"],
   };
-  // write your code here
+
+  if (types.Premiere.includes(movieTitle)) {
+    return "Premiere";
+  } else if (types.Regular.includes(movieTitle)) {
+    return "Regular";
+  }
+
+  return "Tidak ada tipe cinema yang sesuai";
 }
 
-function getSeatNumber(codeType) {
-  // Lambang "x" menandakan bahwa kursi sudah terisi
+function getSeatNumber(codeSeat) {
   let seats = [
     ["A", "x", "2", "3", "4"],
     ["B", "1", "x", "x", "4"],
     ["C", "x", "x", "3", "4"],
     ["D", "x", "x", "x", "4"],
   ];
-  // write your code here
+
+  for (let i = 0; i < seats.length; i++) {
+    if (seats[i][0] === codeSeat) {
+      for (let j = 1; j < seats[i].length; j++) {
+        if (seats[i][j] !== "x") {
+          seats[i][j] = "x";
+          return codeSeat + j;
+        }
+      }
+    }
+  }
+
+  return "Tempat duduk penuh";
 }
 
 function printTicket(customer) {
-  // write your code here
-  let data = getDataMovie(customer);
+  const movieData = getDataMovie(customer.movie);
+  const mealData = getFreeMeal(customer.allergies);
+  const drinkData = getFreeDrink(customer.drinkSoda);
+  const cinemaType = getCinemaType(customer.movie);
+  const seatNumber = getSeatNumber(customer.seatCode);
 
-  return data;
+  if (
+    movieData &&
+    mealData &&
+    drinkData &&
+    cinemaType !== "Tidak ada tipe cinema yang sesuai" &&
+    seatNumber !== "Tempat duduk penuh"
+  ) {
+    const totalPrice = movieData.price + mealData.price + drinkData.price;
+    return {
+      name: customer.name,
+      movie: customer.movie,
+      meal: mealData.name,
+      drink: drinkData.name,
+      seatType: cinemaType,
+      seatNumber: seatNumber,
+      totalPrice: totalPrice,
+      message: "Yeay semua kamu dapatkan gratis loh! Tapi boong!, kan lagi covid hahaha",
+    };
+  } else {
+    return "Tiket tidak dapat dicetak, silakan cek kembali data Anda.";
+  }
 }
 
 let customer1 = {

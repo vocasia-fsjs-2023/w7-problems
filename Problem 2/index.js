@@ -1,16 +1,12 @@
 function getProductsAmount(productsArr) {
-  // Write your code here
-  // EXPECTIATION
-  // Input from customer.products
-  // [
-  //   ["Asus ROG", 2],
-  //   ["Lenovo Legion", 3],
-  // ],
-  // Result
-  // {
-  //   "Asus ROG": 2,
-  //   "Lenovo Legion":3
-  // }
+  const productAmount = {};
+
+  for (const product of productsArr) {
+    const [productName, amount] = product;
+    productAmount[productName] = (productAmount[productName] || 0) + amount;
+  }
+
+  return productAmount;
 }
 
 function getTotalPrice(productsObj) {
@@ -21,31 +17,39 @@ function getTotalPrice(productsObj) {
     ["HP Omen", 20000000],
     ["Acer Predator", 21000000],
   ];
-  // Write your code here
-  // EXPECTIATION
-  // Input
-  // {
-  //   "Asus ROG": 2,
-  //   "Lenovo Legion":3
-  // }
-  // Result
-  // 121000000 // NUMBER
+
+  let totalPrice = 0;
+
+  for (const productName in productsObj) {
+    const amount = productsObj[productName];
+    const productPrice = listProduct.find(product => product[0] === productName);
+
+    if (productPrice) {
+      totalPrice += productPrice[1] * amount;
+    }
+  }
+
+  return totalPrice;
 }
 
 function getDiscount(memberStatus, totalPrice) {
-  // Write your code here
-  // EXPECTIATION
-  // Input
-  // memberStatus = true
-  // totalPrice = 121000000
-  // Result
-  // 92800000 // NUMBER
+  if (memberStatus) {
+    return totalPrice * 0.8; // Diskon 20% untuk member
+  } else {
+    return totalPrice;
+  }
 }
 
 function shoppingTeros(customer) {
-  // write your code here pakai function yg sudah dibuat diatas didalam sini
-  // EXPECTATION Return berupa string sesuai contoh dibawah
-  // apabila member maka panggil dia pelanggan setia
+  const productsAmount = getProductsAmount(customer.products);
+  const totalPrice = getTotalPrice(productsAmount);
+  const discountedPrice = getDiscount(customer.member, totalPrice);
+
+  if (customer.member) {
+    return `Hai pelanggan setia ${customer.name}! Total Harga yang harus kamu bayar adalah Rp ${discountedPrice}`;
+  } else {
+    return `Hai ${customer.name}! Total Harga yang harus kamu bayar adalah Rp ${discountedPrice}`;
+  }
 }
 
 let customer1 = {
@@ -72,6 +76,7 @@ let customer3 = {
   products: [["HP Omen", 2]],
   member: true,
 };
+
 
 // TEST CASES
 console.log(shoppingTeros(customer1)); // Hai pelanggan setia Fajrin! Total Harga yang harus kamu bayar adalah Rp 92800000

@@ -23,6 +23,11 @@ function getDataMovie(movieTitle) {
     },
   ];
   // write your code here
+  for (let i = 0; i < movies.length; i++) {
+    if (movies[i].title === movieTitle) {
+      return movies[i];
+    };
+  };
   return output;
 }
 getDataMovie();
@@ -55,7 +60,16 @@ function getFreeMeal(allergies) {
     },
   ];
   // write your code here
+  let freeFoods = [];
+  for (let i = 0; i < foods.length; i++) {
+    if (!allergies.includes(foods[i].name)) {
+      freeFoods.push(foods[i].name);
+    }
+  }
+
+  return freeFoods.length > 0 ? freeFoods : "No free meal available"; 
 }
+
 
 function getFreeDrink(drinkSoda) {
   let drinks = [
@@ -81,6 +95,14 @@ function getFreeDrink(drinkSoda) {
     },
   ];
   // write your code here
+  let freeDrinks = [];
+  for (let i = 0; i < drinks.length; i++) {
+    if ((drinkSoda && drinks[i].soda) || (!drinkSoda && !drinks[i].soda)) {
+      freeDrinks.push(drinks[i].name);
+    }
+  }
+
+  return freeDrinks.length > 0 ? freeDrinks : "No free drink available";
 }
 
 function getCinemaType(movieTitle) {
@@ -89,6 +111,13 @@ function getCinemaType(movieTitle) {
     Regular: ["Sherlock Holmes", "Call"],
   };
   // write your code here
+  for (let type in types) {
+    if (types[type].includes(movieTitle)) {
+      return type;
+    }
+  }
+
+  return "Cinema type not found"; 
 }
 
 function getSeatNumber(codeType) {
@@ -100,6 +129,17 @@ function getSeatNumber(codeType) {
     ["D", "x", "x", "x", "4"],
   ];
   // write your code here
+  for (let i = 0; i < seats.length; i++) {
+    if (seats[i][0] === codeType) {
+      for (let j = 1; j < seats[i].length; j++) {
+        if (seats[i][j] !== "x") {
+          return codeType + j;
+        }
+      }
+    }
+  }
+
+  return "Seat not found"; 
 }
 
 function printTicket(customer) {

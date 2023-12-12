@@ -1,7 +1,7 @@
 var arr = [];
 function createObj(name, phase, gender) {
   // YOUR CODE HERE...
-
+  arr.push({ name: name, phase: phase, gender: gender });
   // END OF YOUR CODE HERE...
   return arr;
 }
@@ -17,7 +17,7 @@ console.log(arr);
 function getData(name) {
   let result;
   // YOUR CODE HERE...
-
+  result = arr.find(student => student.name === name);
   // END OF YOUR CODE HERE...
   return result;
 }
